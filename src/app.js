@@ -1,7 +1,40 @@
 // start point of the project
 const express = require("express");
+const connectDB = require("./config/database");
 
 const app = express(); // creating instance of expressjs application(server)
+const User = require("./models/user");
+
+// Use POST method to add data into DB
+app.post("/signup", async (req, res) => {
+  const userObj = {
+    firsName: "Kamal",
+    lastName: "Ramesh",
+    emailId: "kamal@gmail.com",
+    password: "123@",
+  };
+  // creating a new instance(user) of the User model
+  const user = new User(userObj);
+  // saving the instance into DB.
+  // Always try to put DB activity when saving put inside try catch block
+  try {
+    await user.save();
+    res.send("User Added  successfully");
+  } catch (err) {
+    res.status(400).send("Error saving the user:" + err.message);
+  }
+});
+
+connectDB()
+  .then(() => {
+    console.log("Database connection is established");
+    app.listen(3000, () => {
+      console.log("Server is succesfully listening on port 3000");
+    });
+  })
+  .catch((err) => {
+    console.log("Database cannot be connected");
+  });
 
 //! ORDER OF ROUTES IS MATTER
 // app.use("/", (req, res) => {
@@ -40,6 +73,3 @@ app.use("/", (req, res) => {
 });
 
 // after creating server we have to listen to particular port for incoming request - LISTEN METHOD
-app.listen(3000, () => {
-  console.log("Server is succesfully listening on port 3000");
-});

@@ -26,3 +26,11 @@
 -- What is Middlewares?
 -- why is Middlewares important(Auth comes into picture for admin page)
 -- Error Handling using app.use("/",(err, req, res, next) = {});
+
+-- Create a free cluster on mongoDB website
+-- install mongoose lib
+-- connect your application to the database(/devTinder)
+-- call connectDB funciton and connect to database before starting application on port 3000
+-- Create a userSchema and userModel
+-- create POST /signup API to add data to database
+-- Push some documents(instance) using API calls from postman
