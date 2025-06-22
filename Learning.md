@@ -14,3 +14,15 @@
 
 -- Install Postman APP and make workspace/collection and test API call
 -- write logic to handle GET, POST, DELETE in POSTMAN
+-- Explore routing and use of ?, +, (), * in the routes
+-- Use of regex in routes /a/ , /.*fly$/
+-- Reading the query params in the routes
+-- Reading the dynamic routes
+
+-- Multiple Route Handlers - Play with code
+-- next()
+-- next function and errors along with res.send()
+-- app.use("/route", rH, [rH2, rH3], rH4, rH5);
+-- What is Middlewares?
+-- why is Middlewares important(Auth comes into picture for admin page)
+-- Error Handling using app.use("/",(err, req, res, next) = {});
