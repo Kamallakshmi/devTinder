@@ -5,16 +5,14 @@ const connectDB = require("./config/database");
 const app = express(); // creating instance of expressjs application(server)
 const User = require("./models/user");
 
+// middleware to convert json to js object
+app.use(express.json());
+
 // Use POST method to add data into DB
 app.post("/signup", async (req, res) => {
-  const userObj = {
-    firsName: "Kamal",
-    lastName: "Ramesh",
-    emailId: "kamal@gmail.com",
-    password: "123@",
-  };
+  console.log(req.body);
   // creating a new instance(user) of the User model
-  const user = new User(userObj);
+  const user = new User(req.body);
   // saving the instance into DB.
   // Always try to put DB activity when saving put inside try catch block
   try {
