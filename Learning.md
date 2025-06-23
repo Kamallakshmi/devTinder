@@ -46,3 +46,11 @@
 -- create a custom validation
 -- API level validation for PATCH request
 -- DATA SANITIZATION - Add API validation for each field
+-- Install validator
+-- Explore validator library function
+
+-- validate data in signup API(use helper function)
+-- Install bcrypt package
+-- Create PasswordHash using bcrypt.hash and save the encrypted password
+-- Create login API
+-- compare password and throw error if email or password in invalid

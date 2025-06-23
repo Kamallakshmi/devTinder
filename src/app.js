@@ -4,22 +4,61 @@ const connectDB = require("./config/database");
 
 const app = express(); // creating instance of expressjs application(server)
 const User = require("./models/user");
+const { validateSignUpData, validateLoginData } = require("./utils/validation");
+const bcrypt = require("bcrypt");
 
 // middleware to convert json to js object
 app.use(express.json());
 
 // Use POST method to add data into DB
+// To register the new user into DB
 app.post("/signup", async (req, res) => {
-  console.log(req.body);
-  // creating a new instance(user) of the User model
-  const user = new User(req.body);
-  // saving the instance into DB.
-  // Always try to put DB activity when saving put inside try catch block
   try {
+    // First thing is validation of data
+    // Create a helper function to do this validation
+    validateSignUpData(req);
+
+    // second thing Encrypt the password then store the data into DB
+    const { firstName, lastName, emailId, password } = req.body;
+    const passwordHash = await bcrypt.hash(password, 10);
+
+    // creating a new instance(user) of the User model
+    const user = new User({
+      firstName,
+      lastName,
+      emailId,
+      password: passwordHash,
+    });
+    // saving the instance into DB.
+    // Always try to put DB activity when saving put inside try catch block
+
     await user.save();
     res.send("User Added  successfully");
   } catch (err) {
-    res.status(400).send("Error saving the user:" + err.message);
+    res.status(400).send("ERROR: " + err.message);
+  }
+});
+
+//Login API
+app.post("/login", async (req, res) => {
+  try {
+    const { emailId, password } = req.body;
+    // validation for email id // do sanitization for email id - to check whether user give proper format of mail id
+    validateLoginData(emailId);
+
+    const user = await User.findOne({ emailId: emailId });
+    if (!user) {
+      throw new Error("Invalid Credentials");
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (isPasswordValid) {
+      res.send("Login Succesful");
+    } else {
+      throw new Error("Invalid Credentials");
+    }
+  } catch (err) {
+    res.status(400).send("ERROR: " + err.message);
   }
 });
 
