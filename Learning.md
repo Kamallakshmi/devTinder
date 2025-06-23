@@ -41,3 +41,8 @@
 -- API - Get user by email
 -- API - Feed API - GET /feed - get all the users from the database.
 -- API - Update the user
+
+-- Explore schemetypes option from the document
+-- create a custom validation
+-- API level validation for PATCH request
+-- DATA SANITIZATION - Add API validation for each field
