@@ -54,3 +54,14 @@
 -- Create PasswordHash using bcrypt.hash and save the encrypted password
 -- Create login API
 -- compare password and throw error if email or password in invalid
+
+-- Install cookie-parser
+-- just send a dummmy cookie to user
+-- create GET / profile API and check if you get the cookies back
+-- Install jsonwebtoken
+-- in login api, after email and password validation, create a JWT token and send it to user inside cookies
+-- read the cookies inside your profile API and find the looges in user
+-- userAuth middleware
+-- add the userAuth middleware in profile API and a new sendConnectionRequest API
+-- Set the expiry of JWT token and cookies to 7 days
+-- Create UserSchema method to comparepassword(passwordinputby user from request)

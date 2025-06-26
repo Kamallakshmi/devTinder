@@ -1,14 +1,18 @@
 // start point of the project
 const express = require("express");
 const connectDB = require("./config/database");
-
 const app = express(); // creating instance of expressjs application(server)
 const User = require("./models/user");
 const { validateSignUpData, validateLoginData } = require("./utils/validation");
 const bcrypt = require("bcrypt");
+const cookieParser = require("cookie-parser");
+const jwt = require("jsonwebtoken");
+const { userAuth } = require("./middlewares/auth");
 
 // middleware to convert json to js object
 app.use(express.json());
+// when the request came like /profile to read the cookie we use this middleware
+app.use(cookieParser());
 
 // Use POST method to add data into DB
 // To register the new user into DB
@@ -51,14 +55,43 @@ app.post("/login", async (req, res) => {
       throw new Error("Invalid Credentials");
     }
 
-    const isPasswordValid = await bcrypt.compare(password, user.password);
+    const isPasswordValid = await user.validatePassword(password);
     if (isPasswordValid) {
+      // Create a JWT token
+      const token = await user.getJWT();
+
+      /// Add the token to cookies and send the response back to  the user
+      res.cookie("token", token);
       res.send("Login Succesful");
     } else {
       throw new Error("Invalid Credentials");
     }
   } catch (err) {
     res.status(400).send("ERROR: " + err.message);
+  }
+});
+
+//To get profile of the user
+app.get("/profile", userAuth, async (req, res) => {
+  // whenever server gets the profile request. it means user already login so we have to validate the cookie first
+  try {
+    const user = req.user;
+
+    // if the token is valid, server will response else reply please login/ your cookies got expired
+    res.send(user);
+  } catch (err) {
+    res.status(400).send("ERROR: " + err.message);
+  }
+});
+
+//TO send a connection request
+app.post("/sendConnectionRequest", userAuth, async (req, res, next) => {
+  try {
+    const user = req.user;
+    console.log("Sending a connection request");
+    res.send(`${user.firstName} sent the connection request`);
+  } catch (err) {
+    res.status(500).send("Something went wrong");
   }
 });
 
