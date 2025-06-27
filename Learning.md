@@ -73,3 +73,17 @@
 -- Create routes folder for managing auth, profile, request routers
 -- create authRouter, profileRouter, reuqestRouter
 -- Import these routers in app.js
+-- Create POST /logout API
+-- Create PATCH /profile/edit
+-- Create PATCH /profile/password API => forgot password API
+-- Make sure to validate all data in every POST, PATCH API's
+
+-- Create aconnection request Schema
+-- send Connection request Api
+-- proper validation of data
+-- think about all corner cases
+-- $OR and $AND query in mongoDB [ logical queries ]
+-- schema.pre("save") functions
+-- Read more about indexes in MongoDB
+-- why do we need index? what is adv and disadv of creating a index?
+--

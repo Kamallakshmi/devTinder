@@ -8,6 +8,7 @@ const userSchema = new mongoose.Schema(
     firstName: {
       type: String,
       required: true,
+      index: true,
     },
     lastName: {
       type: String,
@@ -31,11 +32,16 @@ const userSchema = new mongoose.Schema(
     },
     gender: {
       type: String,
-      validate(value) {
-        if (!["male", "female", "others"].includes(value)) {
-          throw new Error("Gender is not valid");
-        }
+      enum: {
+        values: ["male", "female", "other"],
+        message: `{VALUE} is not a valid gender type`,
       },
+      // CUSTOM VALIDATION TO CHECK GENDER IS ONLY SELECTED VALUE IF ANYTHING COMES OTHERS THAN THIS THROW ERROR - we can also implement this using ENUM
+      // validate(value) {
+      //   if (!["male", "female", "others"].includes(value)) {
+      //     throw new Error("Gender is not valid");
+      //   }
+      // },
     },
     age: {
       type: Number,

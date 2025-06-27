@@ -66,4 +66,15 @@ authRouter.post("/login", async (req, res) => {
   }
 });
 
+//Logout API
+authRouter.post("/logout", async (req, res) => {
+  // NO NEED TOKEN AUTHENTICATION
+  // authentication whether user login or not is not neccessary for logout api
+  res.cookie("token", null, {
+    // null means we seting cookies to null and expire the cookie immediately
+    expires: new Date(Date.now()),
+  });
+  res.send("Logout Successful");
+});
+
 module.exports = authRouter;

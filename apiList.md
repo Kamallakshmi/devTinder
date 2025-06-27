@@ -18,9 +18,10 @@ Status: ignore(user ignore profile of others - LEFT SWIPE(call ignore API)), int
 
 SENDING THE CONNECTION REQUEST
 
-- POST /request/send/interested/:userId
-- POST /request/send/ignore/:userID
+- POST /request/send/:status/:userId // status can be ignored and interested so make dynamic
+
   RECEIVING THE CONNECTION REQUEST(to accept and reject it)
+
 - POST /request/review/accepted/:requestId
 - POST /request/review/rejected/:requestId
 
