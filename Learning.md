@@ -86,4 +86,14 @@
 -- schema.pre("save") functions
 -- Read more about indexes in MongoDB
 -- why do we need index? what is adv and disadv of creating a index?
---
+
+-- Thought process -- POST APi vs GET APi
+
+-- logic for GET /feed API
+-- Explore $nin, $ne, $and and other query operators
+-- Pagination
+
+/feed?page=1&limit=10(this is in url called query params means in first page users from 1 to 10)
+
+.Skip()-- how many documents we have to skip and .limit() -- means how many documents we want
+eg: /feed?page=1&limit=10 this is on URL .skip(0) & .limit(10) this is on MongoDB - skips 0 users and limit 10 (first 10 documents)

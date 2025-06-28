@@ -12,11 +12,13 @@ app.use(cookieParser());
 const authRouter = require("./routes/auth");
 const profileRouter = require("./routes/profile");
 const requestRouter = require("./routes/requests");
+const userRouter = require("./routes/user");
 
 //if reuqest comes with "/login" it will go first check authRouter to see login API there are not. If it presents there then execute else it will execute profileRouter.
 app.use("/", authRouter);
 app.use("/", profileRouter);
 app.use("/", requestRouter);
+app.use("/", userRouter);
 
 // Get user by email
 // // whenevr we areusing db operation always use async/await becasue all the dp methods will return a promise

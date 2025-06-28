@@ -63,4 +63,48 @@ requestRouter.post(
   }
 );
 
+// we need userAuth to make sure user as logged in(check token is valid or not, then findout logged in user from DB and call the next request handler)
+requestRouter.post(
+  "/request/review/:status/:requestId",
+  userAuth,
+  async (req, res) => {
+    try {
+      // Pant is sending request to sachin
+      // wha thing we need to check?
+      //1. toUserId(sachin) should have to logged in ( he only going to accept or reject).(validate the usedId)
+      //2. check status should be interested.(validate the status)
+      //3. check requestId should be valid(means it should be in DB)
+      const loggedInUser = req.user; // taking the user from requesting body
+      const { status, requestId } = req.params; // taking the status from req body
+
+      const allowedStatus = ["accepted", "rejected"]; // validation of status
+      if (!allowedStatus.includes(status)) {
+        // checking the status coming in the request is present in allowedStatus array
+        return res.status(400).json({ message: "Status is not allowed!" });
+      }
+
+      const connectionRequest = await ConnectionRequest.findOne({
+        // once the status is correct then check requesting Id is present in DB or not
+        _id: requestId,
+        toUserId: loggedInUser.id, // the connection request toUserId should be same as loggically the loggedIn user id bcz then only he can accept or reject the request
+        status: "interested",
+      });
+
+      if (!connectionRequest) {
+        // if that connectionRequest not found in DB then throw error
+        return res
+          .status(400)
+          .json({ message: "Connection request is not found!" });
+      }
+      // if everything perfect then we have to save the status
+      // connectionRequest.interested = accepted/rejected based on incoming request body(url in postman)
+      connectionRequest.status = status;
+      const data = await connectionRequest.save();
+      res.json({ message: "Connection request " + status, data });
+    } catch (err) {
+      res.status(400).send("ERROR: " + err.message);
+    }
+  }
+);
+
 module.exports = requestRouter;

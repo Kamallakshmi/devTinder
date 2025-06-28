@@ -22,8 +22,7 @@ SENDING THE CONNECTION REQUEST
 
   RECEIVING THE CONNECTION REQUEST(to accept and reject it)
 
-- POST /request/review/accepted/:requestId
-- POST /request/review/rejected/:requestId
+- POST /request/review/:status/:requestId // Status can be accept or reject from receiver end
 
 ## 4.userRouter
 
